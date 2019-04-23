@@ -1,0 +1,163 @@
+package com.recore.tishkconnection.Activity;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.recore.tishkconnection.Adapter.IntroviewPagerAdapter;
+import com.recore.tishkconnection.R;
+import com.recore.tishkconnection.Model.ScreenItem;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class IntroActivity extends AppCompatActivity {
+
+    private ViewPager mViewPager;
+    private IntroviewPagerAdapter mPagerAdapter;
+    private TabLayout introTabIndicator;
+    private Button nextIntroButton;
+    private Animation getStartedAnimation;
+
+    private Button getStartedButton;
+    private int position;
+
+    private FirebaseAuth mAuth;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        if (restorePrefData()){
+
+            Intent i = new Intent(getApplicationContext(), SignUpActivity.class);
+            startActivity(i);
+            finish();
+
+        }
+
+        setContentView(R.layout.activity_intro);
+
+
+
+
+        final List<ScreenItem>list= new ArrayList<>();
+        list.add(new ScreenItem("Connect","Connect with You'r university See The latest news on the go",R.drawable.img1));
+        list.add(new ScreenItem("Find colleague","colleague to work with, do you'r research with student from other field collaborate with them and build you'r business today ",R.drawable.img2));
+        list.add(new ScreenItem("Share you'r moment","share you'r day with the whole university, share you'r work, you'r vision, or just you'r moment",R.drawable.img3));
+
+        introTabIndicator =(TabLayout)findViewById(R.id.intro_tab_indicator);
+        nextIntroButton=(Button)findViewById(R.id.next_intro_button);
+        getStartedButton =(Button)findViewById(R.id.get_started_button);
+        getStartedAnimation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.button_animation);
+
+        mAuth =FirebaseAuth.getInstance();
+
+        mViewPager =findViewById(R.id.intro_pager);
+        mPagerAdapter = new IntroviewPagerAdapter(this,list);
+        mViewPager.setAdapter(mPagerAdapter);
+
+        introTabIndicator.setupWithViewPager(mViewPager);
+        nextIntroButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                position=mViewPager.getCurrentItem();
+                if (position<list.size()){
+                    position++;
+                    mViewPager.setCurrentItem(position);
+                }
+                if (position==list.size()){
+                    loadLastScreen();
+                }
+
+            }
+        });
+
+        getStartedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(getApplicationContext(), SignInActivity.class);
+                startActivity(i);
+                savePref();
+                finish();
+            }
+        });
+
+        introTabIndicator.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                if (position==list.size()-1){
+                    loadLastScreen();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
+    private boolean restorePrefData() {
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefData",MODE_PRIVATE);
+        Boolean isIntroActivityOpendBefore =pref.getBoolean("isIntroOpenid",false);
+        return isIntroActivityOpendBefore;
+
+    }
+
+    private void savePref() {
+
+        SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("myPref",MODE_PRIVATE);
+        SharedPreferences.Editor editor =sharedPreferences.edit();
+        editor.putBoolean("isIntroOpenid",true);
+        editor.commit();
+
+
+    }
+
+    private void loadLastScreen() {
+
+        nextIntroButton.setVisibility(View.INVISIBLE);
+        introTabIndicator.setVisibility(View.INVISIBLE);
+        getStartedButton.setVisibility(View.VISIBLE);
+        getStartedButton.setAnimation(getStartedAnimation);
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user!=null){
+            Intent i = new Intent(getApplicationContext(),Home.class);
+            startActivity(i);
+            finish();
+        }
+    }
+}

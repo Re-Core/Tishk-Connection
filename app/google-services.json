@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "295141121793",
+    "firebase_url": "https://tishk-connection.firebaseio.com",
+    "project_id": "tishk-connection",
+    "storage_bucket": "tishk-connection.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:295141121793:android:51a42a43f5cdaf00",
+        "android_client_info": {
+          "package_name": "com.recore.tishkconnection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "295141121793-bki7fjvco32vqele49bko4a7fojatrt6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA04NIMj1Y1Wjtb5AH7Av2DD1VdZ07JDKg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
