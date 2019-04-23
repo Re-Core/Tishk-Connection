@@ -14,6 +14,11 @@
     <color name="gradient_start_color">#4c84ff</color>
     <color name="gradient_end_color">#18a3fe</color>
 
+    <color name="card_bg_color">#f6f6f6</color>
+    <color name="card_bg_color_dark">#0e0e0e</color>
+    <color name="text_title_color">#256bd6</color>
+    <color name="content_text_color">#999da4</color>
+    <color name="edit_text_color_dark">#999da4</color>
 
     <color name="tab_indicator">#c0c0c0</color>
     <color name="intro_title_black">#000000</color>

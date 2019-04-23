@@ -3,6 +3,8 @@ package com.recore.tishkconnection.Activity;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.*;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,12 +22,20 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.recore.tishkconnection.Adapter.CommentAdapter;
+import com.recore.tishkconnection.Adapter.PostAdapter;
 import com.recore.tishkconnection.Model.Comment;
+import com.recore.tishkconnection.Model.Post;
 import com.recore.tishkconnection.R;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -48,6 +58,12 @@ public class PostDetailActivity extends AppCompatActivity {
     NestedScrollView nestedScrollViewRoot;
 
 
+    private RecyclerView commentRecyclerView;
+    private CommentAdapter commentAdapter;
+    private DatabaseReference commentDatabaseReference;
+    private List<Comment> commentList;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +73,17 @@ public class PostDetailActivity extends AppCompatActivity {
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         nestedScrollViewRoot = findViewById(R.id.nestedScrollView);
+
+        LinearLayoutManager lin = new LinearLayoutManager(this);
+        lin.setStackFromEnd(true);
+        lin.setReverseLayout(true);
+        commentRecyclerView = (RecyclerView) findViewById(R.id.commentRecycler);
+        commentRecyclerView.setLayoutManager(lin);
+
+        commentRecyclerView.setHasFixedSize(true);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+
+
 
         imgPost = findViewById(R.id.post_detail_image);
         imgUserPost = findViewById(R.id.post_detail_user_img);
@@ -124,6 +151,8 @@ public class PostDetailActivity extends AppCompatActivity {
         //getPostId So we can know later which post is commented
         postKey = getIntent().getExtras().getString("postKey");
 
+        commentDatabaseReference = firebaseDatabase.getReference().child("Comments").child(postKey);
+
         isDark = getThemeState();
 
         if (isDark) {
@@ -131,11 +160,15 @@ public class PostDetailActivity extends AppCompatActivity {
             txtPostTitle.setTextColor(getResources().getColor(R.color.white));
             txtPostDescription.setTextColor(getResources().getColor(R.color.white));
             txtPostDate.setTextColor(getResources().getColor(R.color.white));
-
+            editTextComment.setBackground(getResources().getDrawable(R.drawable.edittext_button_rounded_style_dark));
+            btnAddComment.setBackground(getResources().getDrawable(R.drawable.edittext_button_rounded_style_dark));
+            editTextComment.setHintTextColor(getResources().getColor(R.color.tab_indicator));
+            btnAddComment.setTextColor(getResources().getColor(R.color.white));
 
         } else {
             nestedScrollViewRoot.setBackgroundColor(getResources().getColor(R.color.white));
         }
+
 
     }
 
@@ -157,5 +190,32 @@ public class PostDetailActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+        commentDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                commentList = new ArrayList<>();
+
+                for (DataSnapshot commentsShot : dataSnapshot.getChildren()) {
+
+                    Comment comment = commentsShot.getValue(Comment.class);
+                    commentList.add(comment);
+
+                }
+                commentAdapter = new CommentAdapter(commentList, PostDetailActivity.this, getThemeState());
+                commentRecyclerView.setAdapter(commentAdapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 }

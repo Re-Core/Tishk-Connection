@@ -126,10 +126,12 @@ public class Home extends AppCompatActivity
 
         isDark = getThemeState();
         if (isDark) {
-            rootLay.setBackgroundColor(getResources().getColor(R.color.dark_navigation_view));
-            navigationView.setBackgroundColor(getResources().getColor(R.color.dark));
+            rootLay.setBackgroundColor(getResources().getColor(R.color.dark));
+            navigationView.setBackgroundColor(getResources().getColor(R.color.dark_navigation_view));
             navigationView.setItemTextColor(ColorStateList.valueOf(Color.WHITE));
             navigationView.setItemIconTintList(ColorStateList.valueOf(Color.WHITE));
+
+
         } else {
             rootLay.setBackgroundColor(getResources().getColor(R.color.white));
             navigationView.setBackgroundColor(getResources().getColor(R.color.white));
@@ -153,6 +155,7 @@ public class Home extends AppCompatActivity
     }
 
     private void iniPopUp() {
+
 
         popAddPost = new Dialog(this);
         popAddPost.setContentView(R.layout.popup_add_post);

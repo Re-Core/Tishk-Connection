@@ -31,6 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:lineSpacingExtra="4dp"
@@ -40,9 +41,10 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/post_detail_image"
-            app:layout_constraintVertical_bias="0.29000002" />
+            app:layout_constraintVertical_bias="0.050000012" />
 
         <View
             android:id="@+id/view"
@@ -122,13 +124,29 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/post_detail_user_img"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/post_detail_date_name"
             app:layout_constraintStart_toEndOf="@+id/post_detail_date_name"
             app:layout_constraintTop_toTopOf="@+id/post_detail_date_name"
             tools:srcCompat="@tools:sample/avatars" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/commentRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/post_detail_comment_edit_text">
+
+        </android.support.v7.widget.RecyclerView>
+
     </android.support.constraint.ConstraintLayout>
 
 
