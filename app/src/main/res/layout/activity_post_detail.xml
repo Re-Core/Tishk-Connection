@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nestedScrollView"
@@ -72,15 +71,15 @@
             tools:text="1/2/2017" />
 
         <TextView
-            android:textColor="#373737"
-            android:lineSpacingExtra="8dp"
             android:id="@+id/post_detail_desc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:lineSpacingExtra="8dp"
             android:text="Description Description Description Description Description Description Description Description Description"
+            android:textColor="#373737"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/post_detail_date_name" />
@@ -96,14 +95,14 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <EditText
-            android:background="@drawable/edittext_button_rounded_style"
             android:id="@+id/post_detail_comment_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:background="@drawable/edittext_button_rounded_style"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="Write Comment"
+            android:inputType="textPersonName"
             app:layout_constraintBottom_toBottomOf="@+id/post_detail_currentuser_img"
             app:layout_constraintStart_toEndOf="@+id/post_detail_currentuser_img"
             app:layout_constraintTop_toTopOf="@+id/post_detail_currentuser_img" />

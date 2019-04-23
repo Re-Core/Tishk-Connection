@@ -17,7 +17,7 @@ import java.util.List;
 public class IntroviewPagerAdapter extends PagerAdapter {
 
     Context mContext;
-    List<ScreenItem>mScreenItems;
+    List<ScreenItem> mScreenItems;
 
     public IntroviewPagerAdapter(Context context, List<ScreenItem> screenItems) {
         mContext = context;
@@ -29,13 +29,13 @@ public class IntroviewPagerAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
 
 
-        LayoutInflater inflater =(LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View layoutScreen = inflater.inflate(R.layout.inro_layout,null);
+        View layoutScreen = inflater.inflate(R.layout.inro_layout, null);
 
-        ImageView introImg =layoutScreen.findViewById(R.id.intro_img);
-        TextView title=layoutScreen.findViewById(R.id.intro_title);
-        TextView description=layoutScreen.findViewById(R.id.intro_description);
+        ImageView introImg = layoutScreen.findViewById(R.id.intro_img);
+        TextView title = layoutScreen.findViewById(R.id.intro_title);
+        TextView description = layoutScreen.findViewById(R.id.intro_description);
 
         title.setText(mScreenItems.get(position).getTitle());
         description.setText(mScreenItems.get(position).getDescription());
@@ -59,7 +59,7 @@ public class IntroviewPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView((View)object);
+        container.removeView((View) object);
 
     }
 }

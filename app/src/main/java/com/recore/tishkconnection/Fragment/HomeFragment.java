@@ -39,7 +39,7 @@ public class HomeFragment extends Fragment {
     private PostAdapter postAdapter;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    private List<Post>postList;
+    private List<Post> postList;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -81,15 +81,14 @@ public class HomeFragment extends Fragment {
         lin.setStackFromEnd(true);
         lin.setReverseLayout(true);
 
-        View fragmentView =inflater.inflate(R.layout.fragment_home, container, false);
-        postRecyclerView =(RecyclerView)fragmentView.findViewById(R.id.postRv);
+        View fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
+        postRecyclerView = fragmentView.findViewById(R.id.postRv);
         postRecyclerView.setLayoutManager(lin);
-
 
 
         postRecyclerView.setHasFixedSize(true);
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference =firebaseDatabase.getReference().child("posts");
+        databaseReference = firebaseDatabase.getReference().child("posts");
 
 
         return fragmentView;
@@ -114,6 +113,37 @@ public class HomeFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                postList = new ArrayList<>();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    Post post = postSnapshot.getValue(Post.class);
+                    postList.add(post);
+
+
+                }
+
+                postAdapter = new PostAdapter(getActivity(), postList);
+                postRecyclerView.setAdapter(postAdapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -127,36 +157,5 @@ public class HomeFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                postList = new ArrayList<>();
-
-                for (DataSnapshot postSnapshot:dataSnapshot.getChildren()){
-
-                    Post post =postSnapshot.getValue(Post.class);
-                    postList.add(post);
-
-
-                }
-
-                postAdapter = new PostAdapter(getActivity(),postList);
-                postRecyclerView.setAdapter(postAdapter);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
     }
 }

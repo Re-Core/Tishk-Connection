@@ -58,24 +58,20 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private FirebaseAuth mAuth;
-    private FirebaseUser mCurrentUser;
-
-    private Dialog popAddPost;
-
-    private CircleImageView popUpUserImage;
-    private ImageView popUpAddPostButton , popUpPostImage;
-    private EditText popUpTitleEditText, popUpDescriptionEditText;
-    private ProgressBar popUpClickProgressBar;
-
+    private static final int REQUESTIMAGECODE = 2;
+    private static final int PReqCode = 2;
     FloatingActionButton fab;
     boolean isDark = false;
     DrawerLayout rootLay;
     NavigationView navigationView;
-
-    private static final int REQUESTIMAGECODE =2;
-    private static final int PReqCode =2;
-    private Uri pickedImageAddress =null;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mCurrentUser;
+    private Dialog popAddPost;
+    private CircleImageView popUpUserImage;
+    private ImageView popUpAddPostButton, popUpPostImage;
+    private EditText popUpTitleEditText, popUpDescriptionEditText;
+    private ProgressBar popUpClickProgressBar;
+    private Uri pickedImageAddress = null;
 
 
     @Override
@@ -89,12 +85,12 @@ public class Home extends AppCompatActivity
         setContentView(R.layout.activity_home);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        rootLay =(DrawerLayout) findViewById(R.id.drawer_layout);
+        rootLay = findViewById(R.id.drawer_layout);
 
-        mAuth =FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
         System.out.println(mCurrentUser.getPhotoUrl().toString());
@@ -105,15 +101,15 @@ public class Home extends AppCompatActivity
         iniPopUp();
         setUpPopUpImageClick();
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              popAddPost.show();
+                popAddPost.show();
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -121,21 +117,20 @@ public class Home extends AppCompatActivity
         toggle.syncState();
 
 
-
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         updateNavHeader();
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
 
 
-        isDark =getThemeState();
-        if (isDark){
+        isDark = getThemeState();
+        if (isDark) {
             rootLay.setBackgroundColor(getResources().getColor(R.color.dark_navigation_view));
             navigationView.setBackgroundColor(getResources().getColor(R.color.dark));
             navigationView.setItemTextColor(ColorStateList.valueOf(Color.WHITE));
             navigationView.setItemIconTintList(ColorStateList.valueOf(Color.WHITE));
-        }else{
+        } else {
             rootLay.setBackgroundColor(getResources().getColor(R.color.white));
             navigationView.setBackgroundColor(getResources().getColor(R.color.white));
 
@@ -159,18 +154,18 @@ public class Home extends AppCompatActivity
 
     private void iniPopUp() {
 
-        popAddPost =new Dialog(this);
+        popAddPost = new Dialog(this);
         popAddPost.setContentView(R.layout.popup_add_post);
         popAddPost.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        popAddPost.getWindow().setLayout(Toolbar.LayoutParams.MATCH_PARENT,Toolbar.LayoutParams.WRAP_CONTENT);
-        popAddPost.getWindow().getAttributes().gravity= Gravity.TOP;
+        popAddPost.getWindow().setLayout(Toolbar.LayoutParams.MATCH_PARENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        popAddPost.getWindow().getAttributes().gravity = Gravity.TOP;
 
-        popUpUserImage =(CircleImageView)popAddPost.findViewById(R.id.popup_user_image);
-        popUpAddPostButton = (ImageView)popAddPost.findViewById(R.id.popup_add);
-        popUpClickProgressBar=(ProgressBar)popAddPost.findViewById(R.id.popup_progressBar);
-        popUpTitleEditText =(EditText)popAddPost.findViewById(R.id.pop_up_title_edittext);
-        popUpDescriptionEditText =(EditText)popAddPost.findViewById(R.id.popup_description_edittext);
-        popUpPostImage =(ImageView)popAddPost.findViewById(R.id.popup_post_img);
+        popUpUserImage = popAddPost.findViewById(R.id.popup_user_image);
+        popUpAddPostButton = popAddPost.findViewById(R.id.popup_add);
+        popUpClickProgressBar = popAddPost.findViewById(R.id.popup_progressBar);
+        popUpTitleEditText = popAddPost.findViewById(R.id.pop_up_title_edittext);
+        popUpDescriptionEditText = popAddPost.findViewById(R.id.popup_description_edittext);
+        popUpPostImage = popAddPost.findViewById(R.id.popup_post_img);
 
 
         //Glide.with(this)
@@ -187,13 +182,13 @@ public class Home extends AppCompatActivity
                 popUpClickProgressBar.setVisibility(View.VISIBLE);
                 popUpAddPostButton.setVisibility(View.INVISIBLE);
 
-                if (!popUpTitleEditText.getText().toString().isEmpty()&&
-                        !popUpDescriptionEditText.getText().toString().isEmpty()&&
-                        pickedImageAddress!=null){
+                if (!popUpTitleEditText.getText().toString().isEmpty() &&
+                        !popUpDescriptionEditText.getText().toString().isEmpty() &&
+                        pickedImageAddress != null) {
 
 
                     StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("student_post");
-                    final StorageReference imageFilePath =storageReference.child(pickedImageAddress.getLastPathSegment());
+                    final StorageReference imageFilePath = storageReference.child(pickedImageAddress.getLastPathSegment());
                     imageFilePath.putFile(pickedImageAddress).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -202,13 +197,12 @@ public class Home extends AppCompatActivity
                                 @Override
                                 public void onSuccess(Uri uri) {
 
-                                    String imageDownloadLink =uri.toString();
+                                    String imageDownloadLink = uri.toString();
 
                                     Post post = new Post(popUpTitleEditText.getText().toString(),
                                             popUpDescriptionEditText.getText().toString(),
-                                            imageDownloadLink,mCurrentUser.getUid(),
+                                            imageDownloadLink, mCurrentUser.getUid(),
                                             mCurrentUser.getPhotoUrl().toString());
-
 
 
                                     addPost(post);
@@ -228,8 +222,7 @@ public class Home extends AppCompatActivity
                     });
 
 
-
-                }else{
+                } else {
                     showToast("please input Title,description and Image");
                     popUpClickProgressBar.setVisibility(View.INVISIBLE);
                     popUpAddPostButton.setVisibility(View.VISIBLE);
@@ -276,7 +269,7 @@ public class Home extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -300,7 +293,7 @@ public class Home extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container,new SettingFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new SettingFragment()).commit();
             return true;
         }
 
@@ -325,12 +318,12 @@ public class Home extends AppCompatActivity
             });
             getSupportActionBar().setTitle("Home");
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.container,new HomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
 
         } else if (id == R.id.nav_profile) {
             getSupportActionBar().setTitle("Profile");
             fab.setEnabled(false);
-            getSupportFragmentManager().beginTransaction().replace(R.id.container,new ProfileFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new ProfileFragment()).commit();
 
 
         } else if (id == R.id.nav_setting) {
@@ -339,13 +332,13 @@ public class Home extends AppCompatActivity
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    isDark =!isDark;
-                    if (isDark){
+                    isDark = !isDark;
+                    if (isDark) {
                         rootLay.setBackgroundColor(getResources().getColor(R.color.dark));
                         navigationView.setBackgroundColor(getResources().getColor(R.color.dark_navigation_view));
                         navigationView.setItemTextColor(ColorStateList.valueOf(Color.WHITE));
                         navigationView.setItemIconTintList(ColorStateList.valueOf(Color.WHITE));
-                    }else{
+                    } else {
                         rootLay.setBackgroundColor(getResources().getColor(R.color.white));
                         navigationView.setBackgroundColor(getResources().getColor(R.color.white));
                         navigationView.setItemTextColor(ColorStateList.valueOf(Color.BLACK));
@@ -358,53 +351,53 @@ public class Home extends AppCompatActivity
                 }
             });
             getSupportActionBar().setTitle("Setting");
-            getSupportFragmentManager().beginTransaction().replace(R.id.container,new SettingFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new SettingFragment()).commit();
 
         } else if (id == R.id.nav_sign_out) {
             //todo sign out
             FirebaseAuth.getInstance().signOut();
-            Intent loginActivity = new Intent(getApplicationContext(),SignInActivity.class);
+            Intent loginActivity = new Intent(getApplicationContext(), SignInActivity.class);
             startActivity(loginActivity);
             finish();
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     private void saveThemeState(boolean isDark) {
 
-        SharedPreferences saveTheme = getApplicationContext().getSharedPreferences("myPref",MODE_PRIVATE);
-        SharedPreferences.Editor editor =saveTheme.edit();
-        editor.putBoolean("isDark",isDark);
+        SharedPreferences saveTheme = getApplicationContext().getSharedPreferences("myPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = saveTheme.edit();
+        editor.putBoolean("isDark", isDark);
         editor.commit();
 
 
     }
 
-    private boolean getThemeState(){
+    private boolean getThemeState() {
 
-        SharedPreferences getTheme = getApplication().getSharedPreferences("myPref",MODE_PRIVATE);
-        boolean isDark = getTheme.getBoolean("isDark",false);
+        SharedPreferences getTheme = getApplication().getSharedPreferences("myPref", MODE_PRIVATE);
+        boolean isDark = getTheme.getBoolean("isDark", false);
         return isDark;
 
     }
 
-    public void updateNavHeader(){
+    public void updateNavHeader() {
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
 
-        TextView navUsername = (TextView)headerView.findViewById(R.id.nav_username);
-        TextView navMail =(TextView)headerView.findViewById(R.id.nav_user_mail);
-        CircleImageView navUserPhoto = (CircleImageView) headerView.findViewById(R.id.nav_user_photo);
+        TextView navUsername = headerView.findViewById(R.id.nav_username);
+        TextView navMail = headerView.findViewById(R.id.nav_user_mail);
+        CircleImageView navUserPhoto = headerView.findViewById(R.id.nav_user_photo);
 
         navUsername.setText(mCurrentUser.getDisplayName());
         navMail.setText(mCurrentUser.getEmail());
 
-      //  Glide.with(this).load(mCurrentUser.getPhotoUrl()).into(navUserPhoto);
+        //  Glide.with(this).load(mCurrentUser.getPhotoUrl()).into(navUserPhoto);
 
         Glide.with(this)
                 .load(mCurrentUser.getPhotoUrl())
@@ -416,13 +409,13 @@ public class Home extends AppCompatActivity
     private void checkForUserPermission() {
 
         if (ContextCompat.checkSelfPermission(Home.this,
-                Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(Home.this, Manifest.permission.READ_EXTERNAL_STORAGE)){
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(Home.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 Toast.makeText(getApplicationContext(), "please accept the required permission", Toast.LENGTH_SHORT).show();
-            }else{
-                ActivityCompat.requestPermissions(Home.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},PReqCode);
+            } else {
+                ActivityCompat.requestPermissions(Home.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PReqCode);
             }
-        }else {
+        } else {
             openGallery();
         }
 
@@ -432,7 +425,7 @@ public class Home extends AppCompatActivity
 
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
-        startActivityForResult(galleryIntent,REQUESTIMAGECODE);
+        startActivityForResult(galleryIntent, REQUESTIMAGECODE);
 
     }
 
@@ -440,9 +433,9 @@ public class Home extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode==RESULT_OK && requestCode==REQUESTIMAGECODE&&data!=null){
+        if (resultCode == RESULT_OK && requestCode == REQUESTIMAGECODE && data != null) {
 
-            pickedImageAddress =data.getData();
+            pickedImageAddress = data.getData();
             popUpPostImage.setImageURI(pickedImageAddress);
 
 

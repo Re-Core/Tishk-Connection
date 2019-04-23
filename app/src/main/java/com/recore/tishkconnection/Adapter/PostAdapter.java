@@ -23,8 +23,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
-    private Context mContext;
     List<Post> mData;
+    private Context mContext;
 
     public PostAdapter(Context context, List<Post> data) {
         mContext = context;
@@ -35,7 +35,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     @Override
     public PostAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View postesRow = LayoutInflater.from(mContext).inflate(R.layout.row_post_item,viewGroup,false);
+        View postesRow = LayoutInflater.from(mContext).inflate(R.layout.row_post_item, viewGroup, false);
 
         return new ViewHolder(postesRow);
     }
@@ -43,7 +43,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull PostAdapter.ViewHolder viewHolder, int i) {
 
-        viewHolder.container.setAnimation(AnimationUtils.loadAnimation(mContext,R.anim.fade_scale_animation));
+        viewHolder.container.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_scale_animation));
 
         viewHolder.postTitle.setText(mData.get(i).getTitle());
 
@@ -68,11 +68,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            container =(ConstraintLayout)itemView.findViewById(R.id.contaier1);
+            container = itemView.findViewById(R.id.contaier1);
 
-            postImage =(ImageView)itemView.findViewById(R.id.row_post_img);
-            postUserProfileImage =(CircleImageView) itemView.findViewById(R.id.row_post_profile_img);
-            postTitle =(TextView)itemView.findViewById(R.id.row_post_title);
+            postImage = itemView.findViewById(R.id.row_post_img);
+            postUserProfileImage = itemView.findViewById(R.id.row_post_profile_img);
+            postTitle = itemView.findViewById(R.id.row_post_title);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -81,15 +81,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
                     int position = getAdapterPosition();
 
-                    i.putExtra("title",mData.get(position).getTitle());
-                    i.putExtra("desc",mData.get(position).getDescription());
-                    i.putExtra("postImage",mData.get(position).getPictureId());
+                    i.putExtra("title", mData.get(position).getTitle());
+                    i.putExtra("desc", mData.get(position).getDescription());
+                    i.putExtra("postImage", mData.get(position).getPictureId());
 
-                    i.putExtra("postKey",mData.get(position).getPostKey());
+                    i.putExtra("postKey", mData.get(position).getPostKey());
 
-                    i.putExtra("userPhoto",mData.get(position).getUserPhoto());
-                    long timeStamp =(long)mData.get(position).getTimeStamp();
-                    i.putExtra("date",timeStamp);
+                    i.putExtra("userPhoto", mData.get(position).getUserPhoto());
+                    long timeStamp = (long) mData.get(position).getTimeStamp();
+                    i.putExtra("date", timeStamp);
                     mContext.startActivity(i);
 
                 }

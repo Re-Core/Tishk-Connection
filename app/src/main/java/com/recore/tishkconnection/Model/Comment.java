@@ -4,7 +4,7 @@ import com.google.firebase.database.ServerValue;
 
 public class Comment {
 
-    private String uid,uimag,uname,content;
+    private String uid, uimag, uname, content;
     private Object timeStam;
 
     public Comment() {

@@ -39,15 +39,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    private static int PReqCode = 1;
+    private static int REQUESTIMAGECODE = 1;
     private LinearLayout topLayout;
     private LinearLayout downLayout;
     private Animation topAnim;
     private Animation downAnim;
-
-    private CircleImageView registrationImage =null;
-    private static int PReqCode =1;
-    private static int REQUESTIMAGECODE =1;
-    private Uri pickedImageAddress=null;
+    private CircleImageView registrationImage = null;
+    private Uri pickedImageAddress = null;
 
     private Button signUpButton;
 
@@ -70,23 +69,23 @@ public class SignUpActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_sign_up);
 
-        topLayout=(LinearLayout)findViewById(R.id.top_layout);
-        downLayout=(LinearLayout)findViewById(R.id.down_layout);
+        topLayout = findViewById(R.id.top_layout);
+        downLayout = findViewById(R.id.down_layout);
 
         loadScreenAnim();
 
 
-        mAuth =FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
 
-        registrationImage =(CircleImageView)findViewById(R.id.profile_image);
+        registrationImage = findViewById(R.id.profile_image);
 
-        signUpButton=(Button)findViewById(R.id.sign_up_button);
-        nameEditText=(EditText)findViewById(R.id.name_edit_text);
-        mailEditText=(EditText)findViewById(R.id.mail_edit_text);
-        passwordEditText=(EditText)findViewById(R.id.password_edit_text);
-        confirmPasswordEditText=(EditText)findViewById(R.id.conferim_password_edit_text);
-        loadingPrograss =(ProgressBar)findViewById(R.id.sign_up_prograss_bar);
+        signUpButton = findViewById(R.id.sign_up_button);
+        nameEditText = findViewById(R.id.name_edit_text);
+        mailEditText = findViewById(R.id.mail_edit_text);
+        passwordEditText = findViewById(R.id.password_edit_text);
+        confirmPasswordEditText = findViewById(R.id.conferim_password_edit_text);
+        loadingPrograss = findViewById(R.id.sign_up_prograss_bar);
 
         loadingPrograss.setVisibility(View.INVISIBLE);
 
@@ -95,11 +94,11 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (Build.VERSION.SDK_INT>=22){
+                if (Build.VERSION.SDK_INT >= 22) {
 
                     checkForUserPermission();
 
-                }else{
+                } else {
                     openGallery();
                 }
 
@@ -118,15 +117,15 @@ public class SignUpActivity extends AppCompatActivity {
                 final String password = passwordEditText.getText().toString();
                 final String confirmPassword = confirmPasswordEditText.getText().toString();
 
-                if (name.isEmpty()||email.isEmpty()||password.isEmpty()||!password.equals(confirmPassword)){
+                if (name.isEmpty() || email.isEmpty() || password.isEmpty() || !password.equals(confirmPassword)) {
 
                     showMessage("Please Confirm all field");
                     signUpButton.setVisibility(View.VISIBLE);
                     loadingPrograss.setVisibility(View.INVISIBLE);
 
 
-                }else{
-                    createUserAccount(name,email,password);
+                } else {
+                    createUserAccount(name, email, password);
                 }
 
 
@@ -138,16 +137,16 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void createUserAccount(final String name, String email, String password) {
 
-        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     showMessage("Account created Successfully");
 
-                    updateUserInfo(name,pickedImageAddress,mAuth.getCurrentUser());
+                    updateUserInfo(name, pickedImageAddress, mAuth.getCurrentUser());
 
-                }else{
-                    showMessage("Account creation failed"+task.getException().getMessage());
+                } else {
+                    showMessage("Account creation failed" + task.getException().getMessage());
                     signUpButton.setVisibility(View.VISIBLE);
                     loadingPrograss.setVisibility(View.INVISIBLE);
                 }
@@ -157,7 +156,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     //update user name and image
-    private void updateUserInfo(final String name,  Uri pickedImageAddress, final FirebaseUser currentUser) {
+    private void updateUserInfo(final String name, Uri pickedImageAddress, final FirebaseUser currentUser) {
 
         //upload user image to firebase
         StorageReference mStorage = FirebaseStorage.getInstance().getReference().child("user_images");
@@ -201,16 +200,13 @@ public class SignUpActivity extends AppCompatActivity {
                 });
 
 
-
-
-
             }
         });
 
     }
 
     private void updateUi() {
-        Intent i = new Intent(getApplicationContext(),Home.class);
+        Intent i = new Intent(getApplicationContext(), Home.class);
         startActivity(i);
         //todo uncomment it only after testing
         finish();
@@ -224,30 +220,30 @@ public class SignUpActivity extends AppCompatActivity {
 
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
-        startActivityForResult(galleryIntent,REQUESTIMAGECODE);
+        startActivityForResult(galleryIntent, REQUESTIMAGECODE);
 
     }
 
     private void checkForUserPermission() {
 
         if (ContextCompat.checkSelfPermission(SignUpActivity.this,
-                Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(SignUpActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)){
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(SignUpActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 Toast.makeText(getApplicationContext(), "please accept the required permission", Toast.LENGTH_SHORT).show();
-            }else{
-                ActivityCompat.requestPermissions(SignUpActivity.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},PReqCode);
+            } else {
+                ActivityCompat.requestPermissions(SignUpActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PReqCode);
             }
-        }else {
+        } else {
             openGallery();
         }
 
     }
 
-    private void loadScreenAnim(){
-        topAnim= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.login_screen_anim_up);
+    private void loadScreenAnim() {
+        topAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.login_screen_anim_up);
         topLayout.setAnimation(topAnim);
 
-        downAnim =AnimationUtils.loadAnimation(getApplicationContext(),R.anim.login_anim_down);
+        downAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.login_anim_down);
         downLayout.setAnimation(downAnim);
     }
 
@@ -255,8 +251,8 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode==RESULT_OK && requestCode==REQUESTIMAGECODE&&data!=null){
-            pickedImageAddress =data.getData();
+        if (resultCode == RESULT_OK && requestCode == REQUESTIMAGECODE && data != null) {
+            pickedImageAddress = data.getData();
             registrationImage.setImageURI(pickedImageAddress);
 
         }

@@ -44,7 +44,7 @@ public class IntroActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        if (restorePrefData()){
+        if (restorePrefData()) {
 
             Intent i = new Intent(getApplicationContext(), SignUpActivity.class);
             startActivity(i);
@@ -55,22 +55,20 @@ public class IntroActivity extends AppCompatActivity {
         setContentView(R.layout.activity_intro);
 
 
+        final List<ScreenItem> list = new ArrayList<>();
+        list.add(new ScreenItem("Connect", "Connect with You'r university See The latest news on the go", R.drawable.img1));
+        list.add(new ScreenItem("Find colleague", "colleague to work with, do you'r research with student from other field collaborate with them and build you'r business today ", R.drawable.img2));
+        list.add(new ScreenItem("Share you'r moment", "share you'r day with the whole university, share you'r work, you'r vision, or just you'r moment", R.drawable.img3));
 
+        introTabIndicator = findViewById(R.id.intro_tab_indicator);
+        nextIntroButton = findViewById(R.id.next_intro_button);
+        getStartedButton = findViewById(R.id.get_started_button);
+        getStartedAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.button_animation);
 
-        final List<ScreenItem>list= new ArrayList<>();
-        list.add(new ScreenItem("Connect","Connect with You'r university See The latest news on the go",R.drawable.img1));
-        list.add(new ScreenItem("Find colleague","colleague to work with, do you'r research with student from other field collaborate with them and build you'r business today ",R.drawable.img2));
-        list.add(new ScreenItem("Share you'r moment","share you'r day with the whole university, share you'r work, you'r vision, or just you'r moment",R.drawable.img3));
+        mAuth = FirebaseAuth.getInstance();
 
-        introTabIndicator =(TabLayout)findViewById(R.id.intro_tab_indicator);
-        nextIntroButton=(Button)findViewById(R.id.next_intro_button);
-        getStartedButton =(Button)findViewById(R.id.get_started_button);
-        getStartedAnimation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.button_animation);
-
-        mAuth =FirebaseAuth.getInstance();
-
-        mViewPager =findViewById(R.id.intro_pager);
-        mPagerAdapter = new IntroviewPagerAdapter(this,list);
+        mViewPager = findViewById(R.id.intro_pager);
+        mPagerAdapter = new IntroviewPagerAdapter(this, list);
         mViewPager.setAdapter(mPagerAdapter);
 
         introTabIndicator.setupWithViewPager(mViewPager);
@@ -78,12 +76,12 @@ public class IntroActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                position=mViewPager.getCurrentItem();
-                if (position<list.size()){
+                position = mViewPager.getCurrentItem();
+                if (position < list.size()) {
                     position++;
                     mViewPager.setCurrentItem(position);
                 }
-                if (position==list.size()){
+                if (position == list.size()) {
                     loadLastScreen();
                 }
 
@@ -105,7 +103,7 @@ public class IntroActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
-                if (position==list.size()-1){
+                if (position == list.size() - 1) {
                     loadLastScreen();
                 }
             }
@@ -124,17 +122,17 @@ public class IntroActivity extends AppCompatActivity {
 
     private boolean restorePrefData() {
 
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefData",MODE_PRIVATE);
-        Boolean isIntroActivityOpendBefore =pref.getBoolean("isIntroOpenid",false);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefData", MODE_PRIVATE);
+        Boolean isIntroActivityOpendBefore = pref.getBoolean("isIntroOpenid", false);
         return isIntroActivityOpendBefore;
 
     }
 
     private void savePref() {
 
-        SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("myPref",MODE_PRIVATE);
-        SharedPreferences.Editor editor =sharedPreferences.edit();
-        editor.putBoolean("isIntroOpenid",true);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("myPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isIntroOpenid", true);
         editor.commit();
 
 
@@ -154,8 +152,8 @@ public class IntroActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
-        if (user!=null){
-            Intent i = new Intent(getApplicationContext(),Home.class);
+        if (user != null) {
+            Intent i = new Intent(getApplicationContext(), Home.class);
             startActivity(i);
             finish();
         }

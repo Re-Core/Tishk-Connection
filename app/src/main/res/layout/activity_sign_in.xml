@@ -7,8 +7,7 @@
     android:background="#ffffff"
     tools:context=".Activity.SignInActivity">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/create_account"
         android:layout_width="96dp"
         android:layout_height="96dp"
@@ -16,12 +15,12 @@
         android:layout_marginTop="144dp"
         android:layout_marginEnd="8dp"
         android:src="@drawable/userphoto"
+        app:civ_border_color="#FFFFFF"
+        app:civ_border_width="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:civ_border_width="2dp"
-        app:civ_border_color="#FFFFFF"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/mail_edit_text_sign_in"
@@ -39,7 +38,6 @@
         app:layout_constraintTop_toBottomOf="@+id/create_account" />
 
     <EditText
-        android:inputType="textPassword"
         android:id="@+id/password_edit_text_sign_in"
         android:layout_width="256dp"
         android:layout_height="wrap_content"
@@ -48,6 +46,7 @@
         android:layout_marginEnd="8dp"
         android:background="@drawable/reg_edit_text"
         android:hint="Password"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mail_edit_text_sign_in" />

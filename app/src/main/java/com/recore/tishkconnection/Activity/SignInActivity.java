@@ -23,7 +23,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SignInActivity extends AppCompatActivity {
 
     private CircleImageView createAccount;
-    private EditText mail,password;
+    private EditText mail, password;
     private ProgressBar signInProgress;
     private Button signIn;
     private FirebaseAuth mAuth;
@@ -39,12 +39,12 @@ public class SignInActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_sign_in);
 
-        mail =(EditText)findViewById(R.id.mail_edit_text_sign_in);
-        password = (EditText)findViewById(R.id.password_edit_text_sign_in);
-        createAccount =(CircleImageView)findViewById(R.id.create_account);
-        signInProgress =(ProgressBar)findViewById(R.id.login_prograss);
-        signIn =(Button)findViewById(R.id.sign_in_button);
-        mAuth =FirebaseAuth.getInstance();
+        mail = findViewById(R.id.mail_edit_text_sign_in);
+        password = findViewById(R.id.password_edit_text_sign_in);
+        createAccount = findViewById(R.id.create_account);
+        signInProgress = findViewById(R.id.login_prograss);
+        signIn = findViewById(R.id.sign_in_button);
+        mAuth = FirebaseAuth.getInstance();
 
         signInProgress.setVisibility(View.INVISIBLE);
 
@@ -55,16 +55,16 @@ public class SignInActivity extends AppCompatActivity {
                 signIn.setVisibility(View.INVISIBLE);
 
                 final String mEmail = mail.getText().toString();
-                final String mPassword =password.getText().toString();
+                final String mPassword = password.getText().toString();
 
-                if (mEmail.isEmpty()||mPassword.isEmpty()){
+                if (mEmail.isEmpty() || mPassword.isEmpty()) {
                     showMessage("please verify all field");
                     signIn.setVisibility(View.VISIBLE);
                     signInProgress.setVisibility(View.INVISIBLE);
 
-                }else{
+                } else {
 
-                    signInWithMailAndPassword(mEmail,mPassword);
+                    signInWithMailAndPassword(mEmail, mPassword);
                     signIn.setVisibility(View.INVISIBLE);
                     signInProgress.setVisibility(View.VISIBLE);
 
@@ -77,7 +77,7 @@ public class SignInActivity extends AppCompatActivity {
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),SignUpActivity.class);
+                Intent i = new Intent(getApplicationContext(), SignUpActivity.class);
                 startActivity(i);
             }
         });
@@ -87,17 +87,17 @@ public class SignInActivity extends AppCompatActivity {
     private void signInWithMailAndPassword(String mEmail, String mPassword) {
 
 
-        mAuth.signInWithEmailAndPassword(mEmail,mPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
 
                     signInProgress.setVisibility(View.INVISIBLE);
                     signIn.setVisibility(View.VISIBLE);
                     updateUi();
 
-                }else{
-                    showMessage("login failed"+task.getException().getMessage());
+                } else {
+                    showMessage("login failed" + task.getException().getMessage());
                     signInProgress.setVisibility(View.INVISIBLE);
                     signIn.setVisibility(View.VISIBLE);
                 }
@@ -107,7 +107,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void updateUi() {
-        Intent i = new Intent(this,Home.class);
+        Intent i = new Intent(this, Home.class);
         startActivity(i);
         finish();
     }
