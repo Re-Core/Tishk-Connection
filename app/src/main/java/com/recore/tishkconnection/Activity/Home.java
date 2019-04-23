@@ -313,6 +313,7 @@ public class Home extends AppCompatActivity
 
             fab.setEnabled(true);
             fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_create_black_24dp));
+            fab.show();
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -321,17 +322,21 @@ public class Home extends AppCompatActivity
             });
             getSupportActionBar().setTitle("Home");
 
+
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
 
         } else if (id == R.id.nav_profile) {
             getSupportActionBar().setTitle("Profile");
             fab.setEnabled(false);
+            fab.hide();
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new ProfileFragment()).commit();
 
 
         } else if (id == R.id.nav_setting) {
+
             fab.setEnabled(true);
             fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_dark_mode_black_24dp));
+
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -355,7 +360,7 @@ public class Home extends AppCompatActivity
             });
             getSupportActionBar().setTitle("Setting");
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new SettingFragment()).commit();
-
+            fab.show();
         } else if (id == R.id.nav_sign_out) {
             //todo sign out
             FirebaseAuth.getInstance().signOut();
