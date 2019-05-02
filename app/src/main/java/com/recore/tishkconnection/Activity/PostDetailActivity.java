@@ -49,6 +49,7 @@ public class PostDetailActivity extends AppCompatActivity {
     TextView txtPostTitle, txtPostDescription, txtPostDate;
     EditText editTextComment;
     Button btnAddComment;
+    View seprator;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -99,6 +100,7 @@ public class PostDetailActivity extends AppCompatActivity {
         imgPost = findViewById(R.id.post_detail_image);
         imgUserPost = findViewById(R.id.post_detail_user_img);
         imgCurrentUser = findViewById(R.id.post_detail_currentuser_img);
+        seprator = findViewById(R.id.view);
 
         txtPostTitle = findViewById(R.id.post_detail_title);
         txtPostDescription = findViewById(R.id.post_detail_desc);
@@ -175,7 +177,9 @@ public class PostDetailActivity extends AppCompatActivity {
             txtPostDate.setTextColor(getResources().getColor(R.color.white));
             editTextComment.setBackground(getResources().getDrawable(R.drawable.edittext_button_rounded_style_dark));
             btnAddComment.setBackground(getResources().getDrawable(R.drawable.edittext_button_rounded_style_dark));
-            editTextComment.setHintTextColor(getResources().getColor(R.color.tab_indicator));
+
+            seprator.setBackgroundColor(getResources().getColor(R.color.white));
+            editTextComment.setHintTextColor(getResources().getColor(R.color.white));
             btnAddComment.setTextColor(getResources().getColor(R.color.white));
 
         } else {
