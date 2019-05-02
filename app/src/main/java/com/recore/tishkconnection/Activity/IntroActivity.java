@@ -22,6 +22,8 @@ import com.recore.tishkconnection.Model.ScreenItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
 public class IntroActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
@@ -40,6 +42,12 @@ public class IntroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/Roboto-RobotoRegular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -56,9 +64,9 @@ public class IntroActivity extends AppCompatActivity {
 
 
         final List<ScreenItem> list = new ArrayList<>();
-        list.add(new ScreenItem("Connect", "Connect with You'r university See The latest news on the go", R.drawable.img1));
-        list.add(new ScreenItem("Find colleague", "colleague to work with, do you'r research with student from other field collaborate with them and build you'r business today ", R.drawable.img2));
-        list.add(new ScreenItem("Share you'r moment", "share you'r day with the whole university, share you'r work, you'r vision, or just you'r moment", R.drawable.img3));
+        list.add(new ScreenItem("Connect", "Connect with your university see the latest news on the go", R.drawable.img1));
+        list.add(new ScreenItem("Find colleague", "Colleague to work with, do your research with students from other fields", R.drawable.img2));
+        list.add(new ScreenItem("Share your moment", "Share your day with the whole university, share your projects, your visions, or just your moments", R.drawable.img3));
 
         introTabIndicator = findViewById(R.id.intro_tab_indicator);
         nextIntroButton = findViewById(R.id.next_intro_button);

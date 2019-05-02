@@ -1,6 +1,7 @@
 package com.recore.tishkconnection.Activity;
 
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,6 +40,7 @@ import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class PostDetailActivity extends AppCompatActivity {
 
@@ -67,11 +69,20 @@ public class PostDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/Roboto-RobotoRegular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
+
         setContentView(R.layout.activity_post_detail);
+
 
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
+        //Typeface robotoBold = Typeface.createFromAsset(getAssets(),"Roboto-Bold.ttf");
         nestedScrollViewRoot = findViewById(R.id.nestedScrollView);
 
         LinearLayoutManager lin = new LinearLayoutManager(this);
@@ -96,6 +107,8 @@ public class PostDetailActivity extends AppCompatActivity {
         editTextComment = findViewById(R.id.post_detail_comment_edit_text);
 
         btnAddComment = findViewById(R.id.post_detail_add_comment_button);
+
+        //txtPostTitle.setTypeface(robotoBold);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();

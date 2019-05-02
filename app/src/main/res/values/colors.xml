@@ -7,8 +7,8 @@
 
 
     <color name="white">#ffffff</color>
-    <color name="dark">#000000</color>
-    <color name="dark_navigation_view">#4e4e4e</color>
+    <color name="dark">#243447</color>
+    <color name="dark_navigation_view">#243447</color>
 
 
     <color name="gradient_start_color">#4c84ff</color>

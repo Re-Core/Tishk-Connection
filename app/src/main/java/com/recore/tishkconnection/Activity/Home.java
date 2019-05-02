@@ -16,6 +16,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.SwitchCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -28,6 +29,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -54,6 +56,7 @@ import com.recore.tishkconnection.Model.Post;
 import com.recore.tishkconnection.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -62,6 +65,7 @@ public class Home extends AppCompatActivity
     private static final int PReqCode = 2;
     FloatingActionButton fab;
     boolean isDark = false;
+    private SwitchCompat drawerSwitch;
     DrawerLayout rootLay;
     NavigationView navigationView;
     private FirebaseAuth mAuth;
@@ -74,13 +78,18 @@ public class Home extends AppCompatActivity
     private Uri pickedImageAddress = null;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/Roboto-RobotoRegular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
 
         setContentView(R.layout.activity_home);
 
@@ -125,19 +134,44 @@ public class Home extends AppCompatActivity
 
 
         isDark = getThemeState();
+
+        drawerSwitch = (SwitchCompat) navigationView.getMenu().findItem(R.id.switch_dark_mode).getActionView();
+        drawerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isDark = !isDark;
+                if (isChecked) {
+                    rootLay.setBackgroundColor(getResources().getColor(R.color.dark));
+                    navigationView.setBackgroundColor(getResources().getColor(R.color.dark_navigation_view));
+                    navigationView.setItemTextColor(ColorStateList.valueOf(Color.WHITE));
+                    navigationView.setItemIconTintList(ColorStateList.valueOf(Color.WHITE));
+                } else {
+                    rootLay.setBackgroundColor(getResources().getColor(R.color.white));
+                    navigationView.setBackgroundColor(getResources().getColor(R.color.white));
+                    navigationView.setItemTextColor(ColorStateList.valueOf(Color.BLACK));
+                    navigationView.setItemIconTintList(ColorStateList.valueOf(Color.BLACK));
+                }
+                saveThemeState(isDark);
+            }
+        });
+
+
         if (isDark) {
             rootLay.setBackgroundColor(getResources().getColor(R.color.dark));
             navigationView.setBackgroundColor(getResources().getColor(R.color.dark_navigation_view));
             navigationView.setItemTextColor(ColorStateList.valueOf(Color.WHITE));
             navigationView.setItemIconTintList(ColorStateList.valueOf(Color.WHITE));
+            drawerSwitch.setChecked(true);
 
 
         } else {
             rootLay.setBackgroundColor(getResources().getColor(R.color.white));
             navigationView.setBackgroundColor(getResources().getColor(R.color.white));
-
+            drawerSwitch.setChecked(false);
 
         }
+
+
 
     }
 
@@ -295,10 +329,7 @@ public class Home extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, new SettingFragment()).commit();
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -311,8 +342,7 @@ public class Home extends AppCompatActivity
 
         if (id == R.id.nav_home) {
 
-            fab.setEnabled(true);
-            fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_create_black_24dp));
+
             fab.show();
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -321,46 +351,20 @@ public class Home extends AppCompatActivity
                 }
             });
             getSupportActionBar().setTitle("Home");
-
-
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
 
         } else if (id == R.id.nav_profile) {
+
             getSupportActionBar().setTitle("Profile");
-            fab.setEnabled(false);
-            fab.hide();
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new ProfileFragment()).commit();
 
 
         } else if (id == R.id.nav_setting) {
 
-            fab.setEnabled(true);
-            fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_dark_mode_black_24dp));
-
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    isDark = !isDark;
-                    if (isDark) {
-                        rootLay.setBackgroundColor(getResources().getColor(R.color.dark));
-                        navigationView.setBackgroundColor(getResources().getColor(R.color.dark_navigation_view));
-                        navigationView.setItemTextColor(ColorStateList.valueOf(Color.WHITE));
-                        navigationView.setItemIconTintList(ColorStateList.valueOf(Color.WHITE));
-                    } else {
-                        rootLay.setBackgroundColor(getResources().getColor(R.color.white));
-                        navigationView.setBackgroundColor(getResources().getColor(R.color.white));
-                        navigationView.setItemTextColor(ColorStateList.valueOf(Color.BLACK));
-                        navigationView.setItemIconTintList(ColorStateList.valueOf(Color.BLACK));
-
-
-                    }
-                    saveThemeState(isDark);
-
-                }
-            });
             getSupportActionBar().setTitle("Setting");
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new SettingFragment()).commit();
             fab.show();
+
         } else if (id == R.id.nav_sign_out) {
             //todo sign out
             FirebaseAuth.getInstance().signOut();
@@ -368,6 +372,8 @@ public class Home extends AppCompatActivity
             startActivity(loginActivity);
             finish();
 
+        } else if (id == R.id.switch_dark_mode) {
+            return false;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.recore.tishkconnection.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -32,6 +33,12 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/Roboto-RobotoRegular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,

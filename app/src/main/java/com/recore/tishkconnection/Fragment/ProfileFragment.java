@@ -81,39 +81,8 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        edtTextfeedBack = (EditText) v.findViewById(R.id.feedback);
-        btnAddFeedBack = (FloatingActionButton) v.findViewById(R.id.btnAddFeedBack);
-
-        mAuth = FirebaseAuth.getInstance();
-        mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        feedbackDatabaseReference = firebaseDatabase.getReference().child("Feedback").child(mCurrentUser.getUid());
 
 
-        btnAddFeedBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                HashMap<String, Object> feedback = new HashMap<>();
-                feedback.put("uname", mCurrentUser.getDisplayName());
-                feedback.put("ufeedback", edtTextfeedBack.getText().toString());
-
-                feedbackDatabaseReference.updateChildren(feedback).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(inflater.getContext(), "Thanks for you'r feedback", Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(inflater.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
-            }
-        });
         return v;
     }
 

@@ -4,61 +4,184 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+    android:id="@+id/root_profile_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:id="@+id/root"
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:context=".Fragment.ProfileFragment">
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:orientation="vertical">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="8dp"
-            android:src="@drawable/rebin"
-            app:civ_border_color="#FFFFFF"
-            app:civ_border_width="2dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="350dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="270dp"
+                android:background="@drawable/drawer_toolbar_gradiant_style"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/profile_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/user_image"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/rebin"
+                    app:civ_border_color="#fff"
+                    app:civ_border_width="2dp"
+
+                    />
+
+                <TextView
+                    android:id="@+id/user_name_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:text="Rebin Aziz"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="360dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Developer: Rebin Aziz"
-            android:textColor="@color/content_text_color" />
+            android:layout_gravity="center"
+            android:layout_marginTop="45dp"
+            android:orientation="vertical">
 
-        <TextView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="25dp">
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/ic_email_black_24dp"
+                    android:tint="@color/content_text_color" />
+
+                <TextView
+                    android:id="@+id/email_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="Rebin@Tiu.com"
+                    android:textColor="@color/content_text_color"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:paddingLeft="25dp">
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/ic_phone_black_24dp"
+                    android:tint="@color/content_text_color" />
+
+                <TextView
+                    android:id="@+id/phone_number_text_view_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="+9647701234567"
+                    android:textColor="@color/content_text_color"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+            <!--<LinearLayout
+            android:layout_marginTop="20dp"
+
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:text="Help me build my Application by writing about what you think is good and bad and what future would you like and what idea you have for the app "
-            android:textColor="@color/content_text_color"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:paddingLeft="25dp">
 
-        <EditText
-            android:id="@+id/feedback"
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_bookmark_black_24dp"/>
+            <TextView
+                android:textStyle="bold"
+                android:paddingLeft="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="add to bookmark"/>
+
+        </LinearLayout>-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:paddingLeft="25dp">
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/ic_school_black_24dp"
+                    android:tint="@color/content_text_color" />
+
+                <TextView
+                    android:id="@+id/address_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="ComputerEngineering"
+                    android:textColor="@color/content_text_color"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:background="@drawable/edittext_button_rounded_style"
-            android:hint="Your feedback" />
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnAddFeedBack"
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="32dp"
-        android:src="@drawable/ic_done_black_24dp" />
+        android:layout_marginBottom="42dp"
+        android:background="@drawable/button_gradiant_style"
+        android:text="Edit Profile"
+        android:layout_alignParentBottom="true"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
 
 </RelativeLayout>
 
