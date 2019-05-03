@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.recore.tishkconnection.Model.User;
 import com.recore.tishkconnection.R;
+import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -54,6 +55,9 @@ public class OtherProfileActivity extends AppCompatActivity {
         oUserMail = (TextView) findViewById(R.id.OtxtUserMail);
         oUserDepartment = (TextView) findViewById(R.id.OtxtUserDepartment);
         oUserPhone = (TextView) findViewById(R.id.OtxtUserPhoneNumber);
+        oUserImg = (CircleImageView) findViewById(R.id.OimgUser);
+
+
 
 
     }
@@ -72,6 +76,8 @@ public class OtherProfileActivity extends AppCompatActivity {
                 oUserMail.setText(oUser.getUserMail());
                 oUserPhone.setText(oUser.getUserPhoneNumber());
                 oUserDepartment.setText(oUser.getUserDepartment());
+                Picasso.get().load(oUser.getUserImage()).into(oUserImg);
+
             }
 
             @Override

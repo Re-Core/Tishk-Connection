@@ -26,6 +26,7 @@ import com.recore.tishkconnection.Model.Post;
 import com.recore.tishkconnection.Model.User;
 import com.recore.tishkconnection.R;
 import com.recore.tishkconnection.ViewHolder.UsersViewHolder;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -147,6 +148,7 @@ public class SearchFragment extends Fragment {
                 holder.txtUserNameComment.setText(model.getUsername());
                 holder.txtDescriptionComment.setText(model.getUserDepartment());
                 holder.txtDateComment.setText("");
+                Picasso.get().load(model.getUserImage()).into(holder.imgUserComment);
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override

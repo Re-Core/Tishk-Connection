@@ -62,6 +62,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private ProgressBar loadingPrograss;
     private FirebaseAuth mAuth;
+    private String downloadUrl;
 
 
     @Override
@@ -153,11 +154,10 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    User user = new User(name, password, pickedImageAddress.getLastPathSegment(),
-                            email, mAuth.getCurrentUser().getUid());
+
+
                     showMessage("Account created Successfully");
                     updateUserInfo(name, pickedImageAddress, mAuth.getCurrentUser());
-                    addUserToDatabase(user);
 
 
                 } else {
@@ -185,11 +185,18 @@ public class SignUpActivity extends AppCompatActivity {
                 // image uploaded succesfully
                 // now we can get our image url
 
+                //
+
                 imageFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-
+                        // String imageDownloadLink = uri.toString();
+                        downloadUrl = uri.toString();
                         // uri contain user image url
+
+                        final User user = new User(nameEditText.getText().toString(), passwordEditText.getText().toString(), downloadUrl,
+                                mailEditText.getText().toString(), mAuth.getCurrentUser().getUid());
+
 
 
                         UserProfileChangeRequest profleUpdate = new UserProfileChangeRequest.Builder()
@@ -205,8 +212,10 @@ public class SignUpActivity extends AppCompatActivity {
 
                                         if (task.isSuccessful()) {
                                             // user info updated successfully
+                                            addUserToDatabase(user);
                                             showMessage("Register Complete");
                                             updateUi();
+
                                         }
 
                                     }
