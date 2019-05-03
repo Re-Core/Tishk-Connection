@@ -336,15 +336,26 @@ public class Home extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+
+        int count = getSupportFragmentManager().getBackStackEntryCount();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
 
         } else if (searchView.isSearchOpen()) {
             searchView.closeSearch();
-        } else {
+            getSupportActionBar().setTitle("Home");
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
+            fab.hide();
+
+        } else if (count == 0) {
             super.onBackPressed();
+
+        } else {
+            getSupportFragmentManager().popBackStack();
+
         }
+
 
     }
 
@@ -402,12 +413,6 @@ public class Home extends AppCompatActivity
 
             getSupportActionBar().setTitle("Setting");
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new SettingFragment()).commit();
-            fab.hide();
-
-        } else if (id == R.id.nav_search) {
-
-            getSupportActionBar().setTitle("Search");
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, new SearchFragment()).commit();
             fab.hide();
 
         } else if (id == R.id.nav_sign_out) {

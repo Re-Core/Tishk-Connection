@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.recore.tishkconnection.Activity.Home;
+import com.recore.tishkconnection.Activity.OtherProfileActivity;
 import com.recore.tishkconnection.Adapter.CommentAdapter;
 import com.recore.tishkconnection.Model.Post;
 import com.recore.tishkconnection.Model.User;
@@ -150,9 +151,10 @@ public class SearchFragment extends Fragment {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        Intent i = new Intent(getContext(), OtherProfileActivity.class);
+                        i.putExtra("userId", model.getUserId());
                         Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
-
+                        startActivity(i);
                     }
                 });
 
@@ -176,6 +178,7 @@ public class SearchFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 
 }
 
