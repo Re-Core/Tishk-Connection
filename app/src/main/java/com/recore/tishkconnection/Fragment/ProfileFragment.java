@@ -238,16 +238,21 @@ public class ProfileFragment extends Fragment {
         btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 updateOnlyUserInfo();
-                
+
+
                 txtUserName.setText(currentUser.getUsername());
                 txtUserMail.setText(currentUser.getUserMail());
                 txtUserPhone.setText(currentUser.getUserPhoneNumber());
                 txtDepartment.setText(currentUser.getUserDepartment());
 
+
                 popupEditProfile.dismiss();
             }
+
         });
+
 
         popupEditProfile.show();
 
@@ -295,6 +300,7 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild(currentUserId)) {
                     currentUser = dataSnapshot.child(currentUserId).getValue(User.class);
+                    Prelevents.currentOnlineUser = currentUser;
                 }
             }
 
