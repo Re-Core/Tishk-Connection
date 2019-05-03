@@ -357,13 +357,13 @@ public class Home extends AppCompatActivity
 
             getSupportActionBar().setTitle("Profile");
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new ProfileFragment()).commit();
-
+            fab.hide();
 
         } else if (id == R.id.nav_setting) {
 
             getSupportActionBar().setTitle("Setting");
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new SettingFragment()).commit();
-            fab.show();
+            fab.hide();
 
         } else if (id == R.id.nav_sign_out) {
             //todo sign out

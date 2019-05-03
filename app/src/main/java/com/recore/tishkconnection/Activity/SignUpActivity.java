@@ -24,15 +24,19 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.recore.tishkconnection.Model.User;
 import com.recore.tishkconnection.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -142,15 +146,16 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-    private void createUserAccount(final String name, String email, String password) {
+    private void createUserAccount(final String name, final String email, final String password) {
 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    showMessage("Account created Successfully");
 
+                    showMessage("Account created Successfully");
                     updateUserInfo(name, pickedImageAddress, mAuth.getCurrentUser());
+
 
                 } else {
                     showMessage("Account creation failed" + task.getException().getMessage());
@@ -161,6 +166,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
     }
+
 
     //update user name and image
     private void updateUserInfo(final String name, Uri pickedImageAddress, final FirebaseUser currentUser) {

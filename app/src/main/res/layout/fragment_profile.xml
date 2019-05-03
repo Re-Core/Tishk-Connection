@@ -34,7 +34,7 @@
 
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/user_image"
+                    android:id="@+id/imgUser"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:layout_gravity="center_horizontal"
@@ -45,7 +45,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/user_name_text_view"
+                    android:id="@+id/txtUserName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -54,6 +54,8 @@
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
+
+
             </LinearLayout>
 
         </RelativeLayout>
@@ -78,7 +80,7 @@
                     android:tint="@color/content_text_color" />
 
                 <TextView
-                    android:id="@+id/email_text_view"
+                    android:id="@+id/txtUserMail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -103,12 +105,12 @@
                     android:tint="@color/content_text_color" />
 
                 <TextView
-                    android:id="@+id/phone_number_text_view_1"
+                    android:id="@+id/txtUserPhoneNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:paddingLeft="20dp"
-                    android:text="+9647701234567"
+                    android:text="07708150017"
                     android:textColor="@color/content_text_color"
                     android:textStyle="bold" />
 
@@ -148,12 +150,12 @@
                     android:tint="@color/content_text_color" />
 
                 <TextView
-                    android:id="@+id/address_text_view"
+                    android:id="@+id/txtUserDepartment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:paddingLeft="20dp"
-                    android:text="ComputerEngineering"
+                    android:text="Computer Engineering"
                     android:textColor="@color/content_text_color"
                     android:textStyle="bold" />
 
@@ -173,6 +175,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btnEditProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

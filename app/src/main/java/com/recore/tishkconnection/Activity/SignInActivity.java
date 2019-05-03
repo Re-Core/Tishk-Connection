@@ -16,6 +16,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.recore.tishkconnection.Model.User;
+import com.recore.tishkconnection.Prelevents.Prelevents;
 import com.recore.tishkconnection.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -28,6 +36,7 @@ public class SignInActivity extends AppCompatActivity {
     private ProgressBar signInProgress;
     private Button signIn;
     private FirebaseAuth mAuth;
+    private FirebaseUser mCurrentUser;
 
 
     @Override
@@ -91,7 +100,7 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
-    private void signInWithMailAndPassword(String mEmail, String mPassword) {
+    private void signInWithMailAndPassword(final String mEmail, final String mPassword) {
 
 
         mAuth.signInWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -101,7 +110,9 @@ public class SignInActivity extends AppCompatActivity {
 
                     signInProgress.setVisibility(View.INVISIBLE);
                     signIn.setVisibility(View.VISIBLE);
+                    mCurrentUser = mAuth.getCurrentUser();
                     updateUi();
+
 
                 } else {
                     showMessage("login failed" + task.getException().getMessage());
@@ -110,6 +121,7 @@ public class SignInActivity extends AppCompatActivity {
                 }
             }
         });
+
 
     }
 
@@ -122,4 +134,6 @@ public class SignInActivity extends AppCompatActivity {
     private void showMessage(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
+
+
 }
