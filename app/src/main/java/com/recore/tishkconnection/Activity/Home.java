@@ -49,6 +49,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.recore.tishkconnection.Fragment.HomeFragment;
 import com.recore.tishkconnection.Fragment.ProfileFragment;
 import com.recore.tishkconnection.Fragment.SettingFragment;
@@ -76,6 +77,7 @@ public class Home extends AppCompatActivity
     private EditText popUpTitleEditText, popUpDescriptionEditText;
     private ProgressBar popUpClickProgressBar;
     private Uri pickedImageAddress = null;
+    private MaterialSearchView searchView;
 
 
 
@@ -96,6 +98,7 @@ public class Home extends AppCompatActivity
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        searchView = (MaterialSearchView) findViewById(R.id.search_view);
 
         rootLay = findViewById(R.id.drawer_layout);
 
@@ -168,6 +171,36 @@ public class Home extends AppCompatActivity
             drawerSwitch.setChecked(false);
 
         }
+
+
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+
+            }
+        });
+
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText != null && !newText.isEmpty()) {
+
+                } else {
+
+                }
+                return true;
+            }
+        });
 
 
 
@@ -307,15 +340,24 @@ public class Home extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+
+        } else if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
         } else {
             super.onBackPressed();
         }
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.search);
+        searchView.setMenuItem(searchItem);
+
+
         return true;
     }
 
