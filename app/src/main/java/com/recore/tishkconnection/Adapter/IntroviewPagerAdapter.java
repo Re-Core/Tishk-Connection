@@ -10,16 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.recore.tishkconnection.R;
-import com.recore.tishkconnection.Model.ScreenItem;
+import com.recore.tishkconnection.Model.IntroScreen;
 
 import java.util.List;
 
 public class IntroviewPagerAdapter extends PagerAdapter {
 
     Context mContext;
-    List<ScreenItem> mScreenItems;
+    List<IntroScreen> mScreenItems;
 
-    public IntroviewPagerAdapter(Context context, List<ScreenItem> screenItems) {
+    public IntroviewPagerAdapter(Context context, List<IntroScreen> screenItems) {
         mContext = context;
         mScreenItems = screenItems;
     }

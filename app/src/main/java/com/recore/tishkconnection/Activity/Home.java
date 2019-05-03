@@ -52,6 +52,7 @@ import com.google.firebase.storage.UploadTask;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.recore.tishkconnection.Fragment.HomeFragment;
 import com.recore.tishkconnection.Fragment.ProfileFragment;
+import com.recore.tishkconnection.Fragment.SearchFragment;
 import com.recore.tishkconnection.Fragment.SettingFragment;
 import com.recore.tishkconnection.Model.Post;
 import com.recore.tishkconnection.R;
@@ -77,7 +78,8 @@ public class Home extends AppCompatActivity
     private EditText popUpTitleEditText, popUpDescriptionEditText;
     private ProgressBar popUpClickProgressBar;
     private Uri pickedImageAddress = null;
-    private MaterialSearchView searchView;
+
+    public static MaterialSearchView searchView;
 
 
 
@@ -176,31 +178,28 @@ public class Home extends AppCompatActivity
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
-
+                getSupportActionBar().setTitle("Search");
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, new SearchFragment()).commit();
+                fab.hide();
             }
 
             @Override
             public void onSearchViewClosed() {
 
+//                fab.show();
+//                fab.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        popAddPost.show();
+//                    }
+//                });
+//                getSupportActionBar().setTitle("Home");
+//                getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
+
             }
         });
 
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (newText != null && !newText.isEmpty()) {
-
-                } else {
-
-                }
-                return true;
-            }
-        });
 
 
 
@@ -403,6 +402,12 @@ public class Home extends AppCompatActivity
 
             getSupportActionBar().setTitle("Setting");
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new SettingFragment()).commit();
+            fab.hide();
+
+        } else if (id == R.id.nav_search) {
+
+            getSupportActionBar().setTitle("Search");
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new SearchFragment()).commit();
             fab.hide();
 
         } else if (id == R.id.nav_sign_out) {

@@ -1,11 +1,11 @@
 package com.recore.tishkconnection.Model;
 
-public class ScreenItem {
+public class IntroScreen {
 
     String title, description;
     int introImage;
 
-    public ScreenItem(String title, String description, int introImage) {
+    public IntroScreen(String title, String description, int introImage) {
         this.title = title;
         this.description = description;
         this.introImage = introImage;

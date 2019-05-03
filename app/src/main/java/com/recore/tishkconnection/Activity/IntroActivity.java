@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.recore.tishkconnection.Adapter.IntroviewPagerAdapter;
 import com.recore.tishkconnection.R;
-import com.recore.tishkconnection.Model.ScreenItem;
+import com.recore.tishkconnection.Model.IntroScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,10 +63,10 @@ public class IntroActivity extends AppCompatActivity {
         setContentView(R.layout.activity_intro);
 
 
-        final List<ScreenItem> list = new ArrayList<>();
-        list.add(new ScreenItem("Connect", "Connect with your university see the latest news on the go", R.drawable.img1));
-        list.add(new ScreenItem("Find colleague", "Colleague to work with, do your research with students from other fields", R.drawable.img2));
-        list.add(new ScreenItem("Share your moment", "Share your day with the whole university, share your projects, your visions, or just your moments", R.drawable.img3));
+        final List<IntroScreen> list = new ArrayList<>();
+        list.add(new IntroScreen("Connect", "Connect with your university see the latest news on the go", R.drawable.img1));
+        list.add(new IntroScreen("Find colleague", "Colleague to work with, do your research with students from other fields", R.drawable.img2));
+        list.add(new IntroScreen("Share your moment", "Share your day with the whole university, share your projects, your visions, or just your moments", R.drawable.img3));
 
         introTabIndicator = findViewById(R.id.intro_tab_indicator);
         nextIntroButton = findViewById(R.id.next_intro_button);
