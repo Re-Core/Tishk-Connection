@@ -302,6 +302,10 @@ public class ProfileFragment extends Fragment {
                     currentUser = dataSnapshot.child(currentUserId).getValue(User.class);
                     Prelevents.currentOnlineUser = currentUser;
                 }
+                txtUserName.setText(currentUser.getUsername());
+                txtUserMail.setText(currentUser.getUserMail());
+                txtUserPhone.setText(currentUser.getUserPhoneNumber());
+                txtDepartment.setText(currentUser.getUserDepartment());
             }
 
             @Override

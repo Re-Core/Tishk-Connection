@@ -102,8 +102,6 @@ public class Home extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
-        System.out.println(mCurrentUser.getPhotoUrl().toString());
-        System.out.println(mCurrentUser.getDisplayName());
 
         //initializing popup
 

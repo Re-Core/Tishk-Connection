@@ -148,13 +148,16 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void createUserAccount(final String name, final String email, final String password) {
 
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this,
+                new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-
+                    User user = new User(name, password, pickedImageAddress.getLastPathSegment(),
+                            email, mAuth.getCurrentUser().getUid());
                     showMessage("Account created Successfully");
                     updateUserInfo(name, pickedImageAddress, mAuth.getCurrentUser());
+                    addUserToDatabase(user);
 
 
                 } else {
@@ -165,8 +168,8 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-    }
 
+    }
 
     //update user name and image
     private void updateUserInfo(final String name, Uri pickedImageAddress, final FirebaseUser currentUser) {
@@ -269,5 +272,23 @@ public class SignUpActivity extends AppCompatActivity {
             registrationImage.setImageURI(pickedImageAddress);
 
         }
+    }
+
+    private void addUserToDatabase(User user) {
+        DatabaseReference userNode = FirebaseDatabase.getInstance().getReference("Users")
+                .child(mAuth.getCurrentUser().getUid());
+
+        userNode.setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                showMessage("successfully added to database");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                showMessage(e.getMessage());
+            }
+        });
+
     }
 }
