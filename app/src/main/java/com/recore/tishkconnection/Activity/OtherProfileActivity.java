@@ -56,8 +56,6 @@ public class OtherProfileActivity extends AppCompatActivity {
         oUserImg = (CircleImageView) findViewById(R.id.OimgUser);
 
 
-
-
     }
 
     @Override

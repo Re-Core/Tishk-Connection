@@ -86,6 +86,8 @@ public class HomeFragment extends Fragment {
 
         LinearLayoutManager lin = new LinearLayoutManager(getActivity());
         lin.setStackFromEnd(true);
+
+        mStaggeredGridLayoutManager.setReverseLayout(true);
         lin.setReverseLayout(true);
 
         View fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
