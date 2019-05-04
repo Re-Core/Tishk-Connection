@@ -3,15 +3,16 @@ package com.recore.tishkconnection.Activity;
 import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.NonNull;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+
+import androidx.annotation.NonNull;
+import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.text.format.*;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,9 +36,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.recore.tishkconnection.Adapter.CommentAdapter;
-import com.recore.tishkconnection.Adapter.PostAdapter;
 import com.recore.tishkconnection.Model.Comment;
-import com.recore.tishkconnection.Model.Post;
 import com.recore.tishkconnection.R;
 
 import java.util.ArrayList;
@@ -72,7 +72,7 @@ public class PostDetailActivity extends AppCompatActivity {
     private List<Comment> commentList;
 
     private Dialog viewImgPopUp;
-    private ImageView popUpFullImg;
+    private PhotoView popUpFullImg;
     private String postImage;
 
     @Override

@@ -1,10 +1,10 @@
 package com.recore.tishkconnection.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.recore.tishkconnection.Model.Comment;
-import com.recore.tishkconnection.Model.Post;
 import com.recore.tishkconnection.R;
 
 import java.util.Calendar;

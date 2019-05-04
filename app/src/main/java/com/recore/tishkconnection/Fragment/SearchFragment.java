@@ -2,17 +2,16 @@ package com.recore.tishkconnection.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -22,16 +21,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.recore.tishkconnection.Activity.Home;
 import com.recore.tishkconnection.Activity.OtherProfileActivity;
-import com.recore.tishkconnection.Adapter.CommentAdapter;
-import com.recore.tishkconnection.Model.Post;
 import com.recore.tishkconnection.Model.User;
 import com.recore.tishkconnection.R;
 import com.recore.tishkconnection.ViewHolder.UsersViewHolder;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import static android.content.Context.MODE_PRIVATE;
 
 
 public class SearchFragment extends Fragment {
