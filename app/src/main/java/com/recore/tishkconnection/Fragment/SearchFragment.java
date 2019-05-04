@@ -2,6 +2,7 @@ package com.recore.tishkconnection.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -30,6 +31,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class SearchFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -43,6 +46,7 @@ public class SearchFragment extends Fragment {
     private List<User> mUserList;
     private LinearLayoutManager mLayoutManager;
     private String input;
+
 
 
     // TODO: Rename and change types of parameters
@@ -71,6 +75,7 @@ public class SearchFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -95,8 +100,10 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText != null && !newText.isEmpty()) {
 
+
+                if (newText != null && !newText.isEmpty()) {
+                    onStart();
                 } else {
 
                 }
@@ -149,6 +156,7 @@ public class SearchFragment extends Fragment {
                 holder.txtDescriptionComment.setText(model.getUserDepartment());
                 holder.txtDateComment.setText("");
                 Picasso.get().load(model.getUserImage()).into(holder.imgUserComment);
+
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
