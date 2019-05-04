@@ -2,14 +2,18 @@ package com.recore.tishkconnection.Activity;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +21,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -49,6 +54,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
+import com.microsoft.projectoxford.vision.VisionServiceClient;
+import com.microsoft.projectoxford.vision.VisionServiceRestClient;
+import com.microsoft.projectoxford.vision.contract.AnalysisResult;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.recore.tishkconnection.Fragment.HomeFragment;
 import com.recore.tishkconnection.Fragment.ProfileFragment;
@@ -56,6 +65,10 @@ import com.recore.tishkconnection.Fragment.SearchFragment;
 import com.recore.tishkconnection.Fragment.SettingFragment;
 import com.recore.tishkconnection.Model.Post;
 import com.recore.tishkconnection.R;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -81,7 +94,11 @@ public class Home extends AppCompatActivity
 
     public static MaterialSearchView searchView;
 
+    //private VisionServiceClient visionServiceClient = new VisionServiceRestClient("84fdb00b8aa045bf8109455883babcb1");
 
+    private String safeContent = "Safe";
+
+    private Bitmap pickedImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +131,7 @@ public class Home extends AppCompatActivity
         setUpPopUpImageClick();
 
         fab = findViewById(R.id.fab);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -243,57 +261,156 @@ public class Home extends AppCompatActivity
                 .load(mCurrentUser.getPhotoUrl())
                 .into(popUpUserImage);
 
+        /**
+         * Microsoft AI
+         * Safe Content Test
+         *
+         * */
+
+
+
+
         popUpAddPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 popUpClickProgressBar.setVisibility(View.VISIBLE);
                 popUpAddPostButton.setVisibility(View.INVISIBLE);
 
-                if (!popUpTitleEditText.getText().toString().isEmpty() &&
-                        !popUpDescriptionEditText.getText().toString().isEmpty() &&
-                        pickedImageAddress != null) {
+
+                /**
+                 *
+                 * Adult content filter
+                 *
+                 * */
+
+//                ByteArrayOutputStream output = new ByteArrayOutputStream();
+//                pickedImg.compress(Bitmap.CompressFormat.JPEG,100,output);
+//                final ByteArrayInputStream input = new ByteArrayInputStream(output.toByteArray());
+//
+//
+//                //inside post button
+//
+//                AsyncTask<InputStream,String,String>analyseImg = new AsyncTask<InputStream, String, String>() {
+//
+//                    ProgressDialog mDialog =new ProgressDialog(Home.this);
+//
+//                    @Override
+//                    protected String doInBackground(InputStream... inputStreams) {
+//
+//                        try {
+//
+//                            publishProgress("Detecting...");
+//                            String[]features={
+//                                    "Adult"
+//                            };
+//
+//                            String[]details={};
+//                            AnalysisResult result = visionServiceClient.analyzeImage(inputStreams[0],features,details);
+//                            //AnalysisResult v = this.client.describe(inputStream, 1);
+//                            String strResult = new Gson().toJson(result);
+//                            return strResult;
+//                        }catch (Exception e){
+//                            return null;
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    protected void onPreExecute() {
+//                        mDialog.show();
+//                    }
+//
+//                    @Override
+//                    protected void onPostExecute(String s) {
+//                        mDialog.dismiss();
+//                        StringBuilder text = new StringBuilder();
+//                        AnalysisResult result = new Gson().fromJson(s,AnalysisResult.class);
+//                        try {
+//
+//                            text.append("File Type"+result.metadata.format+"Width:"+result.metadata.width+"Height:"+
+//                                    result.metadata.height);
+//
+//                            Toast.makeText(Home.this, text, Toast.LENGTH_SHORT).show();
+//
+//                            if (result.adult.isAdultContent==true){
+//                                safeContent="NotSafe";
+//                            }else{
+//                                safeContent="Safe";
+//                            }
+//
+//                        }catch (Exception e){
+//                            Log.d("msg",e.getMessage());
+//                            Toast.makeText(Home.this, e.getMessage(), Toast.LENGTH_LONG).show();
+//                        }
+//
+//                        //Toast.makeText(Home.this, text, Toast.LENGTH_SHORT).show();
+//
+//                    }
+//
+//                    @Override
+//                    protected void onProgressUpdate(String... values) {
+//                        mDialog.setMessage(values[0]);
+//                    }
+//                };
+//
+//
+//                analyseImg.execute(input);
 
 
-                    StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("student_post");
-                    final StorageReference imageFilePath = storageReference.child(pickedImageAddress.getLastPathSegment());
-                    imageFilePath.putFile(pickedImageAddress).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-
-                            imageFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-
-                                    String imageDownloadLink = uri.toString();
-
-                                    Post post = new Post(popUpTitleEditText.getText().toString(),
-                                            popUpDescriptionEditText.getText().toString(),
-                                            imageDownloadLink, mCurrentUser.getUid(),
-                                            mCurrentUser.getPhotoUrl().toString());
+                if (safeContent.equals("Safe")) {
 
 
-                                    addPost(post);
+                    if (!popUpTitleEditText.getText().toString().isEmpty() &&
+                            !popUpDescriptionEditText.getText().toString().isEmpty() &&
+                            pickedImageAddress != null) {
 
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    showToast(e.getMessage());
-                                    popUpClickProgressBar.setVisibility(View.INVISIBLE);
-                                    popUpAddPostButton.setVisibility(View.VISIBLE);
 
-                                }
-                            });
+                        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("student_post");
+                        final StorageReference imageFilePath = storageReference.child(pickedImageAddress.getLastPathSegment());
+                        imageFilePath.putFile(pickedImageAddress).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
 
-                        }
-                    });
+                                imageFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
 
+                                        String imageDownloadLink = uri.toString();
+
+                                        Post post = new Post(popUpTitleEditText.getText().toString(),
+                                                popUpDescriptionEditText.getText().toString(),
+                                                imageDownloadLink, mCurrentUser.getUid(),
+                                                mCurrentUser.getPhotoUrl().toString());
+
+
+                                        addPost(post);
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        showToast(e.getMessage());
+                                        popUpClickProgressBar.setVisibility(View.INVISIBLE);
+                                        popUpAddPostButton.setVisibility(View.VISIBLE);
+
+                                    }
+                                });
+
+                            }
+                        });
+
+
+                    } else {
+                        showToast("please input Title,description and Image");
+                        popUpClickProgressBar.setVisibility(View.INVISIBLE);
+                        popUpAddPostButton.setVisibility(View.VISIBLE);
+                    }
 
                 } else {
-                    showToast("please input Title,description and Image");
-                    popUpClickProgressBar.setVisibility(View.INVISIBLE);
-                    popUpAddPostButton.setVisibility(View.VISIBLE);
+                    Toast.makeText(Home.this, "Not Safe Content", Toast.LENGTH_SHORT).show();
                 }
+
 
             }
         });
@@ -500,9 +617,19 @@ public class Home extends AppCompatActivity
         if (resultCode == RESULT_OK && requestCode == REQUESTIMAGECODE && data != null) {
 
             pickedImageAddress = data.getData();
+
+            try {
+                pickedImg = MediaStore.Images.Media.getBitmap(this.getContentResolver(), pickedImageAddress);
+            } catch (Exception ex) {
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+            }
+
+
             popUpPostImage.setImageURI(pickedImageAddress);
 
 
         }
     }
+
+
 }
