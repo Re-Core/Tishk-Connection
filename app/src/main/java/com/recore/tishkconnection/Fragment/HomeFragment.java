@@ -1,14 +1,14 @@
 package com.recore.tishkconnection.Fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +18,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.recore.tishkconnection.Adapter.PostAdapter;
+import com.recore.tishkconnection.Adapter.StaggeredPostAdapter;
 import com.recore.tishkconnection.Model.Post;
 import com.recore.tishkconnection.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class HomeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -44,18 +46,15 @@ public class HomeFragment extends Fragment {
     private DatabaseReference databaseReference;
     private List<Post> postList;
 
+    boolean isStaggered = false;
+    //staggered Rv;
+    private StaggeredPostAdapter mStaggeredPostAdapter;
+
     public HomeFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
+
     // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
@@ -73,12 +72,16 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        isStaggered = getLayoutManagerState();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        StaggeredGridLayoutManager mStaggeredGridLayoutManager = new
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 
         LinearLayoutManager lin = new LinearLayoutManager(getActivity());
         lin.setStackFromEnd(true);
@@ -90,7 +93,13 @@ public class HomeFragment extends Fragment {
 
 
         postRecyclerView = fragmentView.findViewById(R.id.postRv);
-        postRecyclerView.setLayoutManager(lin);
+
+        if (isStaggered) {
+            postRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
+        } else {
+            postRecyclerView.setLayoutManager(lin);
+
+        }
 
         postRecyclerView.setHasFixedSize(true);
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -137,8 +146,14 @@ public class HomeFragment extends Fragment {
 
                 }
 
-                postAdapter = new PostAdapter(getActivity(), postList);
-                postRecyclerView.setAdapter(postAdapter);
+
+                if (isStaggered) {
+                    mStaggeredPostAdapter = new StaggeredPostAdapter(getActivity(), postList);
+                    postRecyclerView.setAdapter(mStaggeredPostAdapter);
+                } else {
+                    postAdapter = new PostAdapter(getActivity(), postList);
+                    postRecyclerView.setAdapter(postAdapter);
+                }
 
             }
 
@@ -164,4 +179,11 @@ public class HomeFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    private boolean getLayoutManagerState() {
+        SharedPreferences getTheme = getContext().getSharedPreferences("myPref", MODE_PRIVATE);
+        boolean isStaggered = getTheme.getBoolean("isStaggered", false);
+        return isStaggered;
+    }
+
 }
