@@ -1,14 +1,19 @@
 package com.recore.tishkconnection.Activity;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.format.*;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -66,6 +71,9 @@ public class PostDetailActivity extends AppCompatActivity {
     private DatabaseReference commentDatabaseReference;
     private List<Comment> commentList;
 
+    private Dialog viewImgPopUp;
+    private ImageView popUpFullImg;
+    private String postImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,7 +155,7 @@ public class PostDetailActivity extends AppCompatActivity {
             }
         });
 
-        String postImage = getIntent().getExtras().getString("postImage");
+        postImage = getIntent().getExtras().getString("postImage");
         Glide.with(this).load(postImage).into(imgPost);
 
         String postTitle = getIntent().getExtras().getString("title");
@@ -185,6 +193,14 @@ public class PostDetailActivity extends AppCompatActivity {
         } else {
             nestedScrollViewRoot.setBackgroundColor(getResources().getColor(R.color.white));
         }
+
+        imgPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initPopUp();
+                viewImgPopUp.show();
+            }
+        });
 
 
     }
@@ -233,6 +249,30 @@ public class PostDetailActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+
+    private void initPopUp() {
+
+        viewImgPopUp = new Dialog(this);
+        viewImgPopUp.setContentView(R.layout.popup_view_img);
+        viewImgPopUp.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        viewImgPopUp.getWindow().setLayout(Toolbar.LayoutParams.MATCH_PARENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        viewImgPopUp.getWindow().getAttributes().gravity = Gravity.TOP;
+
+        popUpFullImg = viewImgPopUp.findViewById(R.id.full_img);
+
+        Glide.with(PostDetailActivity.this)
+                .load(postImage)
+                .into(popUpFullImg);
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
 
     }
 }
